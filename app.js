@@ -16,7 +16,7 @@ client.on("message", (message) => {
     if (message.content.startsWith(prefix + "ping")) {
         message.channel.send("pong!");
     } else if (message.content.startsWith("pelotudo") || message.content.startsWith("PELOTUDO") || message.content.endsWith("pelotudo") || message.content.endsWith("PELOTUDO")) {
-        message.channel.send("se enojó");
+        message.channel.send("probando");
     } else if (message.content.startsWith("mogolico") || message.content.startsWith("MOGOLICO") || message.content.endsWith("mogolico") || message.content.endsWith("MOGOLICO")) {
         message.channel.send("se enojó");
     } else if (message.content.startsWith("imbecil") || message.content.startsWith("IMBECIL") || message.content.endsWith("imbecil") || message.content.endsWith("IMBECIL")) {
