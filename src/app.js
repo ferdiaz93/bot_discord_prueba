@@ -12,8 +12,7 @@ client.on("ready", () => {
 });
 
 //bot answers
-client.on("message", (message) => {
-  console.log("tessst", message.content.split(" "));
+client.on("message", async (message) => {
   //if (!message.content.startsWith(config.prefix)) return;
   if (message.author.bot) return;
   // console.log(message.author)
@@ -25,27 +24,25 @@ client.on("message", (message) => {
     let ourDate = new Date();
     let pastDate = ourDate.getDate() - daysQuantity;
     ourDate.setDate(pastDate);
+    
     let firstDate = moment(ourDate).format('YYYY-MM-DD');
     let secondDate = moment().format('YYYY-MM-DD');
-    fetch(`https://api.jornalia.net/api/v1/articles?apiKey=${process.env.APIKEY_JORNALIA}&search=&providers=&categories=&startDate=${firstDate}&endDate=${secondDate}`)
-      .then(res => res.json())
-      .then(json => {
-        let article = json.articles[Math.floor(Math.random() * json.articles.length)];
-        while(article.description == null){
-          article = json.articles[Math.floor(Math.random() * json.articles.length)];
-        }
-        const embed = new MessageEmbed()
-          .setTitle(`${article.title} (${article.provider.name})`)
-          .setColor(0xff0000)
-          .setDescription(article.description ? article.description : 'Vino si descripcion capo, entra al link')
-          .setURL(article.sourceUrl)
-        message.channel.send(embed);
-      });
-  }
-  if (message.content.startsWith("efe")) {
-    message.channel.send("testing");
+    const response = await fetch(`https://api.jornalia.net/api/v1/articles?apiKey=${process.env.APIKEY_JORNALIA}&search=&providers=&categories=&startDate=${firstDate}&endDate=${secondDate}`);
+    let data = await response.json();
+
+    let article = data.articles[Math.floor(Math.random() * data.articles.length)];
+
+    while(article.description == null){
+      article = articles[Math.floor(Math.random() * articles.length)];
+    }
+    
+    const embed = new MessageEmbed()
+      .setTitle(`${article.title} (${article.provider.name})`)
+      .setColor(0xff0000)
+      .setDescription(article.description ? article.description : 'Vino si descripcion capo, entra al link')
+      .setURL(article.sourceUrl)
+    message.channel.send(embed);
   }
 });
-
 
 client.login(process.env.TOKEN_APPDISCORD);
