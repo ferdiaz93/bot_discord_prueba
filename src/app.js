@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const client = new Client();
 const daysQuantity = 2;
 
-let prefix = ".";
+let prefix = "_";
 // Starting message
 client.on("ready", () => {
   console.log("Estoy listo!")
@@ -42,6 +42,11 @@ client.on("message", async (message) => {
       .setDescription(article.description ? article.description : 'Vino si descripcion capo, entra al link')
       .setURL(article.sourceUrl)
     message.channel.send(embed);
+  }
+  if(message.content.startsWith(prefix + "clear")){
+    const fetched = await message.channel.fetchMessages({limit: 100});
+    message.channel.bulkDelete(fetched);
+    console.log("Messages Deleted");
   }
 });
 
